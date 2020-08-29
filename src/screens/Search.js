@@ -56,9 +56,6 @@ const SearchScreen = ({ navigation }) => {
         <MiniCard></MiniCard>
         <MiniCard></MiniCard>
         <MiniCard></MiniCard>
-        <MiniCard></MiniCard>
-        <MiniCard></MiniCard>
-        <MiniCard></MiniCard>
       </ScrollView> */}
       {loading ? (
         <ActivityIndicator style={{ marginTop: 10 }} size="large" color="red" />
