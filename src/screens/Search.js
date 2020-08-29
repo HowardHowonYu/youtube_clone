@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import MiniCard from "../components/MiniCard";
 import Constant from "expo-constants";
 
-//https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=songs&type=video&key=AIzaSyAjv1mBFycAqrmcHrTGGJmTfTsiwBg2dkc
+//https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=songs&type=video&key={api_key}
 
 const SearchScreen = ({ navigation }) => {
   const [value, setValue] = useState("");
@@ -21,11 +21,11 @@ const SearchScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const fetchData = () => {
     fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${value}&type=video&key={}`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${value}&type=video&key=AIzaSyAjv1mBFycAqrmcHrTGGJmTfTsiwBg2dkc`
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         setMiniCard(data.items);
       });
   };
