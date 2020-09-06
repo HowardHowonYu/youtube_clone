@@ -12,21 +12,48 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import MiniCard from "../components/MiniCard";
 import Constant from "expo-constants";
+import { useSelector, useDispatch } from "react-redux";
+import { useTheme } from "@react-navigation/native";
 
 //https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=songs&type=video&key={api_key}
 
 const SearchScreen = ({ navigation }) => {
   const [value, setValue] = useState("");
-  const [miniCardData, setMiniCard] = useState([]);
+  // const [miniCardData, setMiniCard] = useState([]);
+  const dispatch = useDispatch();
+  const miniCardData = useSelector(state => {
+    return state.cardData;
+  });
   const [loading, setLoading] = useState(false);
+  const { colors } = useTheme();
+  const mycolor = colors.iconColor;
+  const styles = StyleSheet.create({
+    searchScreenContainer: {
+      flex: 1,
+      marginTop: Constant.statusBarHeight,
+    },
+    searchBar: {
+      padding: 5,
+      flexDirection: "row",
+      justifyContent: "space-around",
+      backgroundColor: colors.headerColor,
+      borderBottomWidth: 1,
+    },
+    textInput: {
+      width: "70%",
+      backgroundColor: "#e6e6e6",
+    },
+  });
   const fetchData = () => {
     fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${value}&type=video&key={}`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${value}&type=video&key={API_KEY}`
     )
       .then(res => res.json())
       .then(data => {
         // console.log(data);
-        setMiniCard(data.items);
+        setLoading(false);
+        dispatch({ type: "add", payload: data.items });
+        // setMiniCard(data.items);
       });
   };
   return (
@@ -37,6 +64,7 @@ const SearchScreen = ({ navigation }) => {
           size={32}
           color="black"
           onPress={() => navigation.goBack()}
+          style={{ color: mycolor }}
         />
         <TextInput
           style={styles.textInput}
@@ -48,6 +76,7 @@ const SearchScreen = ({ navigation }) => {
           size={32}
           color="black"
           onPress={() => fetchData()}
+          style={{ color: mycolor }}
         />
       </View>
       {/* <ScrollView>
@@ -76,24 +105,5 @@ const SearchScreen = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  searchScreenContainer: {
-    flex: 1,
-    marginTop: Constant.statusBarHeight,
-  },
-  searchBar: {
-    padding: 5,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    backgroundColor: "white",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-  },
-  textInput: {
-    width: "70%",
-    backgroundColor: "#e6e6e6",
-  },
-});
 
 export default SearchScreen;
